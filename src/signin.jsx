@@ -46,7 +46,6 @@ const Signin = () => {
           ...toastStyle,
           iconTheme: { primary: "#4f46e5", secondary: "#fff" },
         });
-
         setAuthMode("login");
       } else {
         toast.error(data.message || "SignUp failed!", toastStyle);
@@ -119,147 +118,143 @@ const Signin = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100">
-
-      {/* NAVBAR */}
-      <div className="flex justify-between items-center px-8 py-4 bg-white/60 backdrop-blur-md border-b border-slate-200">
-        <h1 className="text-2xl font-extrabold text-indigo-800">
+      {/* NAVBAR - CENTERED */}
+      <div className="flex justify-center px-4 py-4 bg-white/60 backdrop-blur-md border-b border-slate-200">
+        <h1 className="text-2xl font-extrabold text-indigo-800 text-center">
           Smart Attendance Tracking System
         </h1>
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="flex flex-1 items-center justify-center p-6">
+      {/* MAIN CONTENT - CENTERED */}
+      <div className="flex flex-1 items-center justify-center p-4 sm:p-6">
+        <div className="w-full max-w-5xl bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+          {/* GRID ROWS ON LARGE, COLS ON SMALL */}
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            {/* LEFT - INFO + BENEFITS */}
+            <div className="p-8 sm:p-10 bg-gradient-to-br from-indigo-800 to-violet-700 text-white">
+              <h1 className="text-xl sm:text-2xl font-extrabold mb-4">
+                Welcome to Smart Attendance Tracking System!
+              </h1>
 
-        <div className="w-full max-w-5xl grid md:grid-cols-2 bg-white/60 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+              <p className="text-indigo-100 text-sm mb-6">
+                AI‑powered attendance system with face recognition and real‑time tracking.
+              </p>
 
-          {/* LEFT */}
-          <div className="p-10 bg-gradient-to-br from-indigo-800 to-violet-700 text-white flex flex-col justify-center">
-            <h1 className="text-2xl font-extrabold mb-4">
-              Welcome to Smart Attendance Tracking System!
-            </h1>
-
-            <p className="text-indigo-100 text-sm mb-6">
-              AI-powered attendance system with face recognition and real-time tracking.
-            </p>
-
-            <div className="grid gap-4">
-              {benefits.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex gap-3 bg-white/10 border border-white/20 rounded-2xl p-4"
-                >
-                  <div className="p-2 bg-white/10 rounded-xl">{item.icon}</div>
-                  <div>
-                    <p className="font-semibold text-sm">{item.title}</p>
-                    <p className="text-xs text-indigo-100">{item.desc}</p>
+              <div className="grid gap-4">
+                {benefits.map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex gap-3 bg-white/10 border border-white/20 rounded-2xl p-4"
+                  >
+                    <div className="p-2 bg-white/10 rounded-xl">{item.icon}</div>
+                    <div>
+                      <p className="font-semibold text-sm">{item.title}</p>
+                      <p className="text-xs text-indigo-100">{item.desc}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* RIGHT */}
-          <div className="p-10">
-
-            <h2 className="text-2xl font-extrabold text-indigo-800 mb-2">
-              {authMode === "login"
-                ? "Administrator LogIn"
-                : "Administrator SignUp"}
-            </h2>
-
-            <div className="flex gap-3 mb-6">
-              <button
-                onClick={() => setAuthMode("login")}
-                className={`w-full py-2 rounded-xl font-semibold ${
-                  authMode === "login"
-                    ? "bg-indigo-800 text-white"
-                    : "bg-slate-100 text-gray-600"
-                }`}
-              >
-                LogIn
-              </button>
-
-              <button
-                onClick={() => setAuthMode("signup")}
-                className={`w-full py-2 rounded-xl font-semibold ${
-                  authMode === "signup"
-                    ? "bg-indigo-800 text-white"
-                    : "bg-slate-100 text-gray-600"
-                }`}
-              >
-                SignUp
-              </button>
+                ))}
+              </div>
             </div>
 
-            {/* LOGIN */}
-            {authMode === "login" ? (
-              <>
-                <input
-                  id="signin-email"
-                  placeholder="Email / Username"
-                  className="w-full mb-4 px-4 py-2 rounded-xl border"
-                />
+            {/* RIGHT - FORM */}
+            <div className="p-8 sm:p-10 flex flex-col justify-center">
+              <h2 className="text-2xl font-extrabold text-indigo-800 mb-4 text-center">
+                {authMode === "login"
+                  ? "Administrator LogIn"
+                  : "Administrator SignUp"}
+              </h2>
 
-                <input
-                  id="signin-password"
-                  type="password"
-                  placeholder="Password"
-                  className="w-full mb-6 px-4 py-2 rounded-xl border"
-                />
+              {/* LOGIN / SIGNUP TABS */}
+             <div className="flex gap-3 mb-4 mt-2">
+  <button
+    onClick={() => setAuthMode("login")}
+    className={`
+      flex-1 py-3 rounded-xl font-semibold
+      transition-colors duration-150
+      ${authMode === "login"
+        ? "bg-indigo-800 text-white"
+        : "bg-slate-100 text-gray-600 hover:bg-slate-200"
+      }
+    `}
+  >
+    LogIn
+  </button>
+  <button
+    onClick={() => setAuthMode("signup")}
+    className={`
+      flex-1 py-3 rounded-xl font-semibold
+      transition-colors duration-150
+      ${authMode === "signup"
+        ? "bg-indigo-800 text-white"
+        : "bg-slate-100 text-gray-600 hover:bg-slate-200"
+      }
+    `}
+  >
+    SignUp
+  </button>
+</div>
 
-                <button
-                  onClick={handleSignin}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold"
-                >
-                  Sign In
-                </button>
-              </>
-            ) : (
-              <>
-                <input
-                  id="signup-username"
-                  placeholder="Username"
-                  className="w-full mb-3 px-4 py-2 rounded-xl border"
-                />
-
-                <input
-                  id="signup-email"
-                  placeholder="Email"
-                  className="w-full mb-3 px-4 py-2 rounded-xl border"
-                />
-
-                <input
-                  id="signup-password"
-                  type="password"
-                  placeholder="Password"
-                  className="w-full mb-3 px-4 py-2 rounded-xl border"
-                />
-
-                <input
-                  id="signup-retype"
-                  type="password"
-                  placeholder="Retype Password"
-                  className="w-full mb-6 px-4 py-2 rounded-xl border"
-                />
-
-                <button
-                  onClick={handleSignup}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold"
-                >
-                  Sign Up
-                </button>
-              </>
-            )}
-
+              {/* LOGIN FORM */}
+              {authMode === "login" ? (
+                <>
+                  <input
+                    id="signin-email"
+                    placeholder="Email / Username"
+                    className="w-full mb-4 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                  />
+                  <input
+                    id="signin-password"
+                    type="password"
+                    placeholder="Password"
+                    className="w-full mb-6 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                  />
+                  <button
+                    onClick={handleSignin}
+                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
+                  >
+                    Sign In
+                  </button>
+                </>
+              ) : (
+                <>
+                  <input
+                    id="signup-username"
+                    placeholder="Username"
+                    className="w-full mb-3 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                  />
+                  <input
+                    id="signup-email"
+                    placeholder="Email"
+                    className="w-full mb-3 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                  />
+                  <input
+                    id="signup-password"
+                    type="password"
+                    placeholder="Password"
+                    className="w-full mb-3 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                  />
+                  <input
+                    id="signup-retype"
+                    type="password"
+                    placeholder="Retype Password"
+                    className="w-full mb-6 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                  />
+                  <button
+                    onClick={handleSignup}
+                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
+                  >
+                    Sign Up
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-
         </div>
       </div>
 
-      {/* FOOTER (FIXED) */}
+      {/* FOOTER - CENTERED */}
       <footer className="w-full py-4 bg-white/60 backdrop-blur-md border-t border-slate-200 text-center text-sm text-gray-600 mt-auto">
         <p>© 2026 Smart Attendance Tracking System. All rights reserved.</p>
-
         <p className="mt-1">
           Contact:{" "}
           <a
@@ -270,7 +265,6 @@ const Signin = () => {
           </a>
         </p>
       </footer>
-
     </div>
   );
 };

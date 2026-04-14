@@ -28,7 +28,7 @@ const Front = () => {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
-        videoRef.current.srcObject = stream;
+        if (videoRef.current) videoRef.current.srcObject = stream;
       } catch (err) {
         console.error(err);
       }
@@ -54,7 +54,6 @@ const Front = () => {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
     ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
     const image = canvas.toDataURL("image/jpeg");
 
@@ -93,20 +92,16 @@ const Front = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100 flex flex-col">
       {/* HEADER */}
-      <div className="flex justify-between items-center px-8 py-4 bg-white/60 backdrop-blur-md border-b border-slate-200">
-        <h1 className="text-2xl font-extrabold text-indigo-800 ">
+      <div className="flex justify-between items-center px-4 sm:px-8 py-4 bg-white/60 backdrop-blur-md border-b border-slate-200">
+        <h1 className="text-2xl font-extrabold text-indigo-800 text-left-align flex-1">
           Smart Attendance Tracking System
         </h1>
 
         <div className="flex gap-4 items-center text-sm">
-          {/* <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-600">
-            ● {status}
-          </span> */}
-
           <Link to="/Signin">
-            <button className="px-4 py-2 rounded-full bg-indigo-800 text-white hover:bg-indigo-600 transition">
+            <button className="px-4 py-2 rounded-full bg-indigo-800 text-white hover:bg-indigo-600 transition-colors">
               Dashboard
             </button>
           </Link>
@@ -114,105 +109,114 @@ const Front = () => {
       </div>
 
       {/* MAIN DASHBOARD */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 p-6">
-        {/* CAMERA */}
-        <div className="md:col-span-3 bg-white/60 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-xl p-5">
-          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-md">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              className="w-full h-[420px] object-cover"
-            />
-            <canvas
-              ref={canvasRef}
-              width="640"
-              height="480"
-              className="hidden"
-            />
+      <div className="flex-1 p-4 sm:p-6">
+        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* CAMERA */}
+          <div
+            className="lg:col-span-3 bg-white/80 backdrop-blur-xl border border-indigo-200/50 rounded-3xl shadow-xl p-8"
+            style={{ height: "480px" }}
+          >
+            {" "}
+            {/* or whatever height you want */}
+            <div className="w-full h-[360px] rounded-3xl overflow-hidden border border-indigo-200/50 shadow-lg">
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                className="w-full h-full object-cover"
+              />
+              <canvas
+                ref={canvasRef}
+                width="640"
+                height="480"
+                className="hidden"
+              />
+            </div>
+            <button
+              onClick={handleRecognize}
+              className="mt-3 w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
+            >
+              Recognize Face
+            </button>
           </div>
 
-          <button
-            onClick={handleRecognize}
-            className="mt-5 w-full py-3 rounded-xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold hover:scale-[1.02] transition"
-          >
-            Recognize Face
-          </button>
-        </div>
-
-        {/* INFO PANEL */}
-        <div className="md:col-span-2 flex flex-col gap-4">
-          {/* STUDENT */}
-          <div className="bg-white/60 backdrop-blur-xl border border-slate-200 rounded-3xl p-5 shadow-xl">
-            <h2 className="text-xl font-extrabold text-indigo-800 mb-4">
-              Student Information
-            </h2>
-            <div className="space-y-2">
-              <div className="p-3 bg-slate-50 rounded-xl">
-                <p className="text-s text-black mb-2 font-bold">
-                  Registration Number
-                </p>
-
-                <div
-                  className={`w-full px-3 py-2 rounded-lg border shadow-sm ${
-                    recognizedName === "USN will appear here"
-                      ? "text-xs text-gray-400"
-                      : "text-indigo-700 font-semibold"
-                  } bg-white border-indigo-200`}
-                >
-                  {recognizedName}
+          {/* INFO PANEL */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            {/* STUDENT INFO */}
+            <div className="bg-white/80 backdrop-blur-xl border border-indigo-200/50 rounded-3xl p-6 shadow-xl">
+              <h2 className="text-xl font-extrabold text-indigo-800 mb-4">
+                Student Information
+              </h2>
+              <div className="space-y-4">
+                {/* USN */}
+                <div className="bg-slate-50/80 rounded-xl p-4">
+                  <p className="text-sm text-gray-700 mb-2 font-semibold">
+                    Registration Number
+                  </p>
+                  <div
+                    className={`w-full px-4 py-3 rounded-xl border shadow-sm bg-white border-indigo-200/50 ${
+                      recognizedName === "USN will appear here"
+                        ? "text-sm text-gray-400"
+                        : "text-indigo-700 font-semibold"
+                    }`}
+                  >
+                    {recognizedName}
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-3 bg-slate-50 rounded-xl">
-                <p className="text-s text-black mb-2 font-bold">Student Name</p>
-
-                <div
-                  className={`w-full px-3 py-2 rounded-lg border shadow-sm ${
-                    recognizedStudentName === "Name will appear here"
-                      ? "text-xs text-gray-400"
-                      : "text-indigo-700 font-semibold"
-                  } bg-white border-indigo-200`}
-                >
-                  {recognizedStudentName}
+                {/* NAME */}
+                <div className="bg-slate-50/80 rounded-xl p-4">
+                  <p className="text-sm text-gray-700 mb-2 font-semibold">
+                    Student Name
+                  </p>
+                  <div
+                    className={`w-full px-4 py-3 rounded-xl border shadow-sm bg-white border-indigo-200/50 ${
+                      recognizedStudentName === "Name will appear here"
+                        ? "text-sm text-gray-400"
+                        : "text-indigo-700 font-semibold"
+                    }`}
+                  >
+                    {recognizedStudentName}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* ATTENDANCE */}
-          {/* <div className="bg-white/60 backdrop-blur-xl border border-slate-200 rounded-3xl p-5 shadow-xl">
-            <h2 className="text-xl font-extrabold text-indigo-800 mb-4">
-              Attendance
-            </h2>
-            <p className="text-sm text-gray-600">Current Period</p>
-            <p className="font-bold text-indigo-600 mb-3">{period}</p>
+            {/* ATTENDANCE */}
+            <div className="bg-white/80 backdrop-blur-xl border border-indigo-200/50 rounded-3xl p-6 shadow-xl">
+              <h2 className="text-xl font-extrabold text-indigo-800 mb-4">
+                Attendance
+              </h2>
+              <p className="text-sm text-gray-600 mb-1">Current Period</p>
+              <p className="font-bold text-indigo-600 text-lg">{period}</p>
 
-            {attendanceMessage && (
-              <div className="p-3 rounded-xl bg-white border border-slate-200 text-gray-700 text-sm">
-                {attendanceMessage}
-              </div>
-            )}
-          </div> */}
+              {attendanceMessage && (
+                <div className="mt-4 p-4 rounded-xl bg-indigo-50/80 border border-indigo-200 text-gray-700 text-sm">
+                  {attendanceMessage}
+                </div>
+              )}
+            </div>
 
-          {/* STATUS */}
-          <div className="bg-white/60 backdrop-blur-xl border border-slate-200 rounded-3xl p-5 shadow-xl">
-            <h2 className="text-xl font-extrabold text-indigo-800 mb-4">
-              About
-            </h2>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              The Smart Attendance Tracking System is currently operating in
-              real-time mode, utilizing AI-powered face recognition to identify
-              students and record attendance securely. The system automatically
-              validates class periods and ensures accurate attendance logging
-              with minimal manual intervention.
-            </p>
+            {/* ABOUT / STATUS */}
+            <div className="bg-white/80 backdrop-blur-xl border border-indigo-200/50 rounded-3xl p-6 shadow-xl">
+              <h2 className="text-xl font-extrabold text-indigo-800 mb-4">
+                About
+              </h2>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                The Smart Attendance Tracking System is currently operating in
+                real‑time mode, utilizing AI‑powered face recognition to
+                identify students and record attendance securely. The system
+                automatically validates class periods and ensures accurate
+                attendance logging with minimal manual intervention.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <footer className="w-full mt-10 py-4 bg-white/60 backdrop-blur-md border-t border-slate-200 text-center text-sm text-gray-600">
-        <p>© 2026 Smart Attendance Tracking System. All rights reserved.</p>
 
+      {/* FOOTER */}
+      <footer className="w-full py-4 bg-white/60 backdrop-blur-md border-t border-slate-200 text-center text-sm text-gray-600 mt-auto">
+        <p>© 2026 Smart Attendance Tracking System. All rights reserved.</p>
         <p className="mt-1">
           Contact:{" "}
           <a
