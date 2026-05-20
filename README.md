@@ -1,12 +1,45 @@
-# React + Vite
+Smart Attendance Tracking System
+📌 Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Smart Attendance Tracking System is a web-based application designed to automate and simplify attendance management using facial recognition technology. It eliminates manual attendance marking and ensures accurate, fast, and secure tracking of student or employee attendance.
 
-Currently, two official plugins are available:
+🚀 Features
+Automated attendance marking using facial recognition
+Real-time face detection and verification
+User-friendly and responsive interface
+Attendance history tracking and reporting
+Secure data storage and management
+🛠️ Technologies Used
+React.js – Frontend development
+Tailwind CSS – UI styling
+Python Face API – Facial recognition and processing
+MongoDB – Database management
+🏗️ System Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The system consists of:
 
-## Expanding the ESLint configuration
+Frontend: Built with React.js and Tailwind CSS for an interactive UI
+Backend: Python-based Face API for facial recognition processing
+Database: MongoDB for storing user data and attendance records
+⚙️ Installation & Setup
+1. Clone the repository
+git clone https://github.com/your-username/smart-attendance-system.git
+2. Install frontend dependencies
+cd frontend
+npm install
+npm start
+3. Setup backend
+cd backend
+pip install -r requirements.txt
+python app.py
+4. Configure database
+Create a MongoDB database
+Add connection string in environment configuration
+📊 Future Improvements
+Mobile application integration
+Advanced analytics dashboard
+Multi-face detection optimization
+Cloud deployment support
+👨‍💻 Author
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Developed as a Computer Science project focusing on automation and AI-based attendance systems.
