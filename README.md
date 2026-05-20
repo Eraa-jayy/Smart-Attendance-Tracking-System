@@ -1,4 +1,5 @@
 Smart Attendance Tracking System
+
 📌 Overview
 
 The Smart Attendance Tracking System is a web-based application designed to automate and simplify attendance management using facial recognition technology. It eliminates manual attendance marking and ensures accurate, fast, and secure tracking of student or employee attendance.
