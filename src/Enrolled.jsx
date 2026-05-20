@@ -4,13 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import AdminSidebar from "./components/SideBar"; // ✅ Correct path
 
-import {
-  FaHome,
-  FaFileAlt,
-  FaUser,
-  FaDownload,
-  FaClock,
-} from "react-icons/fa";
+import { Search, UserCheck, UserX, X, BookOpen, Calendar, GraduationCap, Phone, Info } from "lucide-react";
 
 const Enrolled = () => {
   const [students, setStudents] = useState([]);
@@ -76,44 +70,54 @@ const Enrolled = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100 flex flex-col md:flex-row">
       {/* ✅ REUSABLE SIDEBAR */}
       <AdminSidebar mobileMenu={mobileMenu} setMobileMenu={setMobileMenu} />
 
-      {/* ✅ MAIN CONTENT - CENTERED + MOBILE RESPONSIVE */}
-      <main className="flex-1 lg:ml-0 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 min-h-screen">
+      {/* ✅ MAIN CONTENT */}
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-8 py-6 lg:py-8 min-h-screen flex flex-col gap-6">
+        
         {/* HEADER */}
-        <div className="text-center mb-8 lg:mb-12">
-          {/* <p className="text-sm text-gray-600 mb-1">Pages / Enrolled</p> */}
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-indigo-900">
-            Enrolled Students
+        <div className="flex flex-col gap-1 border-b border-indigo-100 pb-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-indigo-950 tracking-tight">
+            Enrolled Directory
           </h1>
+          <p className="text-xs text-slate-500 font-semibold tracking-wide uppercase">
+            Database Records & Attendance Tracking
+          </p>
         </div>
 
         {/* TOP BAR - SEARCH */}
-        <div className="max-w-4xl mx-auto w-full mb-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="max-w-4xl mx-auto w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/70 backdrop-blur-xl p-5 rounded-3xl border border-indigo-100/50 shadow-md">
             <div>
-              <p className="text-sm  font-bold text-gray-800">View all enrolled students</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Search Database</p>
+              <h2 className="text-sm font-extrabold text-indigo-900 mt-0.5">Quick Lookup & Profiles</h2>
             </div>
 
-            <div className="relative w-full sm:w-72">
+            <div className="relative w-full sm:w-80 group">
+              <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-650 transition-colors duration-200">
+                <Search className="w-4 h-4" />
+              </span>
               <input
                 value={search}
                 onChange={handleSearch}
-                placeholder="Search student by Name or Registration No..."
-                className="w-full p-4 rounded-xl border border-indigo-200/50 bg-white/60 backdrop-blur-xl focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
+                placeholder="Name or Registration Number..."
+                className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 outline-none text-xs font-semibold placeholder:text-slate-450"
               />
+              
               {filtered.length > 0 && (
-                <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-xl mt-1 z-10 max-h-60 overflow-auto border border-indigo-200/50">
+                <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl shadow-2xl rounded-2xl mt-1.5 z-10 max-h-60 overflow-auto border border-indigo-100/80 divide-y divide-slate-100">
                   {filtered.map((s) => (
                     <div
                       key={s._id}
                       onClick={() => selectStudent(s)}
-                      className="p-3 hover:bg-indigo-50 cursor-pointer text-sm border-b border-indigo-100 last:border-0"
+                      className="p-3.5 hover:bg-indigo-50/40 cursor-pointer text-xs transition-colors duration-150 flex items-center justify-between"
                     >
-                      <span className="font-medium text-indigo-800">{s.name}</span>{" "}
-                      <span className="text-gray-600 ml-1">({s.usn})</span>
+                      <span className="font-bold text-slate-800">{s.name}</span>
+                      <span className="text-[10px] font-mono text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-md">
+                        {s.usn}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -122,105 +126,147 @@ const Enrolled = () => {
           </div>
         </div>
 
-        {/* TABLE */}
-        <div className="bg-white/80 backdrop-blur-xl border border-indigo-200/50 rounded-3xl shadow-xl p-6 max-w-4xl mx-auto w-full">
-          <h2 className="text-xl font-bold text-indigo-800 mb-6 text-center">
-            Enrolled Students List
+        {/* TABLE SECTION */}
+        <div className="bg-white/85 backdrop-blur-xl border border-indigo-100/50 rounded-3xl shadow-xl p-6 max-w-4xl mx-auto w-full flex flex-col gap-4">
+          <h2 className="text-lg font-extrabold text-indigo-950 tracking-tight">
+            Registered Student Roster
           </h2>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[600px]">
+          <div className="overflow-x-auto rounded-2xl border border-slate-100">
+            <table className="w-full text-left border-collapse text-xs min-w-[600px]">
               <thead>
-                <tr className="bg-indigo-50/50 border-b border-indigo-100">
-                  <th className="p-4 text-left font-semibold text-indigo-700">Name</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Reg No</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Age</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Class</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Phone</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Status</th>
+                <tr className="bg-indigo-50/60 border-b border-indigo-100/40">
+                  <th className="p-4 font-extrabold text-indigo-900">Student Name</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Registration ID</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Age</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Class / Subject</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Mobile Phone</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Daily Attendance</th>
                 </tr>
               </thead>
-              <tbody>
-                {students.map((s) => (
-                  <tr
-                    key={s._id}
-                    className="border-t border-indigo-100 hover:bg-indigo-50/50 cursor-pointer"
-                    onClick={() => selectStudent(s)}
-                  >
-                    <td className="p-4 font-medium">{s.name}</td>
-                    <td className="p-4 font-mono">{s.usn}</td>
-                    <td className="p-4">{s.age}</td>
-                    <td className="p-4">{s.course}</td>
-                    <td className="p-4">{s.phone}</td>
-                    <td className="p-4">
-                      <span
-                        className={
-                          getStatus(s.usn) === "Present"
-                            ? "text-emerald-600 font-semibold"
-                            : "text-red-500 font-semibold"
-                        }
-                      >
-                        {getStatus(s.usn)}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+              <tbody className="divide-y divide-slate-100">
+                {students.map((s) => {
+                  const isPresent = getStatus(s.usn) === "Present";
+                  return (
+                    <tr
+                      key={s._id}
+                      className="hover:bg-indigo-50/30 cursor-pointer transition-all duration-150"
+                      onClick={() => selectStudent(s)}
+                    >
+                      <td className="p-4 font-bold text-slate-800">{s.name}</td>
+                      <td className="p-4 font-mono font-semibold text-indigo-600">{s.usn}</td>
+                      <td className="p-4 font-semibold text-slate-500">{s.age}</td>
+                      <td className="p-4">
+                        <span className="bg-indigo-50 text-indigo-750 px-2 py-0.5 rounded-md font-bold text-[10px]">
+                          {s.course}
+                        </span>
+                      </td>
+                      <td className="p-4 font-mono text-slate-500">{s.phone}</td>
+                      <td className="p-4">
+                        <span
+                          className={`
+                            inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold shadow-sm border
+                            ${isPresent 
+                              ? "bg-emerald-50/90 border-emerald-200 text-emerald-800" 
+                              : "bg-rose-50/90 border-rose-200 text-rose-800"
+                            }
+                          `}
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            isPresent ? "bg-emerald-600 animate-pulse" : "bg-rose-600"
+                          }`} />
+                          {isPresent ? "Present" : "Absent"}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         </div>
 
         {/* FOOTER */}
-        <div className="mt-12 pt-8 border-t border-indigo-200/50 text-center">
-          <p className="text-sm text-gray-600 mb-2">© 2026 Smart Attendance Tracking System</p>
-          <p className="text-sm">
-            Contact:{" "}
+        <footer className="mt-12 pt-6 border-t border-slate-200/50 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between px-2 gap-2">
+          <p>© 2026 Smart Attendance Tracking System. All rights reserved.</p>
+          <p className="font-semibold">
+            Support: 
             <a
               href="mailto:erandajayawardhane25@gmail.com"
-              className="text-indigo-600 font-semibold hover:underline ml-1"
+              className="text-indigo-600 hover:underline ml-1 font-bold"
             >
               erandajayawardhane25@gmail.com
             </a>
           </p>
-        </div>
+        </footer>
       </main>
 
-      {/* MODAL - STUDENT DETAILS */}
+      {/* MODAL - STUDENT DETAILS BACKDROP BLURRED */}
       {selected && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-          <div className="bg-white/90 backdrop-blur-xl max-w-sm w-full rounded-3xl border border-indigo-200/50 shadow-xl p-6">
-            <h2 className="text-xl font-bold text-indigo-800 mb-5 text-center">
-              Student Details
-            </h2>
+        <div className="fixed inset-0 bg-slate-950/45 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white/90 backdrop-blur-xl max-w-sm w-full rounded-3xl border border-indigo-150 shadow-2xl p-6 relative overflow-hidden animate-modal-enter glass-panel">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-50/70 rounded-full blur-xl -z-10 pointer-events-none" />
+            
+            {/* CLOSE CIRCLE BUTTON */}
+            <button 
+              onClick={closeDetails}
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-slate-100 hover:bg-indigo-50 text-slate-400 hover:text-indigo-600 transition-colors duration-200 cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
 
-            <div className="space-y-3 text-sm">
-              <p>
-                <span className="font-semibold text-gray-700">Name:</span>{" "}
-                <span className="text-gray-900">{selected.name}</span>
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">USN:</span>{" "}
-                <span className="text-gray-900">{selected.usn}</span>
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">Age:</span>{" "}
-                <span className="text-gray-900">{selected.age}</span>
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">Course:</span>{" "}
-                <span className="text-gray-900">{selected.course}</span>
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">Phone:</span>{" "}
-                <span className="text-gray-900">{selected.phone}</span>
-              </p>
+            <div className="text-center mb-6 mt-2 flex flex-col items-center gap-2">
+              <div className="w-12 h-12 bg-indigo-100 border border-indigo-150 rounded-2xl flex items-center justify-center text-indigo-600">
+                <GraduationCap className="w-6 h-6" />
+              </div>
+              <div>
+                <h2 className="text-lg font-black text-indigo-950 tracking-tight">
+                  Student Record
+                </h2>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Biometric Identity Profiles</p>
+              </div>
+            </div>
+
+            {/* DETAILS STACK */}
+            <div className="space-y-3.5">
+              {/* NAME */}
+              <div className="bg-slate-50/60 border border-slate-100 rounded-xl p-3.5 flex flex-col gap-0.5">
+                <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Student Name</span>
+                <span className="text-xs font-extrabold text-slate-800">{selected.name}</span>
+              </div>
+
+              {/* REG ID */}
+              <div className="bg-slate-50/60 border border-slate-100 rounded-xl p-3.5 flex flex-col gap-0.5">
+                <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Registration Number</span>
+                <span className="text-xs font-mono font-bold text-indigo-650">{selected.usn}</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3.5">
+                {/* AGE */}
+                <div className="bg-slate-50/60 border border-slate-100 rounded-xl p-3.5 flex flex-col gap-0.5">
+                  <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Age</span>
+                  <span className="text-xs font-extrabold text-slate-800">{selected.age} yrs</span>
+                </div>
+
+                {/* CLASS */}
+                <div className="bg-slate-50/60 border border-slate-100 rounded-xl p-3.5 flex flex-col gap-0.5">
+                  <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Class / Room</span>
+                  <span className="text-xs font-extrabold text-indigo-750">{selected.course}</span>
+                </div>
+              </div>
+
+              {/* PHONE */}
+              <div className="bg-slate-50/60 border border-slate-100 rounded-xl p-3.5 flex flex-col gap-0.5">
+                <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Mobile Number</span>
+                <span className="text-xs font-mono font-bold text-slate-800">{selected.phone}</span>
+              </div>
             </div>
 
             <button
               onClick={closeDetails}
-              className="mt-6 w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
+              className="mt-6 w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-650 text-white font-extrabold text-xs shadow-lg shadow-indigo-150 hover:shadow-indigo-250 hover:scale-[1.01] active:scale-[0.99] transition-all duration-250 cursor-pointer"
             >
-              Close
+              Acknowledge Entry
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AdminSidebar from "./components/SideBar"; // ✅ Correct path
-import { FaJava, FaPython, FaNetworkWired, FaBrain, FaReact } from "react-icons/fa";
+import { Coffee, Terminal, Network, Cpu, Layers, Filter, Calendar } from "lucide-react";
 
 const Period = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -26,11 +26,11 @@ const Period = () => {
   }, []);
 
   const periods = [
-    { name: "Java", icon: <FaJava className="text-3xl text-orange-500" />, time: "9:00 AM" },
-    { name: "Python", icon: <FaPython className="text-3xl text-blue-500" />, time: "10:00 AM" },
-    { name: "Network", icon: <FaNetworkWired className="text-3xl text-green-500" />, time: "11:30 AM" },
-    { name: "AI/ML", icon: <FaBrain className="text-3xl text-purple-600" />, time: "12:30 PM" },
-    { name: "React", icon: <FaReact className="text-3xl text-cyan-500" />, time: "6:30 PM" },
+    { name: "Java", icon: <Coffee className="w-5 h-5 text-orange-500" />, time: "9:00 AM", cap: 40 },
+    { name: "Python", icon: <Terminal className="w-5 h-5 text-blue-500" />, time: "10:00 AM", cap: 45 },
+    { name: "Network", icon: <Network className="w-5 h-5 text-emerald-500" />, time: "11:30 AM", cap: 35 },
+    { name: "AI/ML", icon: <Cpu className="w-5 h-5 text-violet-600" />, time: "12:30 PM", cap: 30 },
+    { name: "React", icon: <Layers className="w-5 h-5 text-cyan-500" />, time: "6:30 PM", cap: 50 },
   ];
 
   const filteredData = filter
@@ -38,100 +38,130 @@ const Period = () => {
     : attendanceData;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100 flex flex-col md:flex-row">
       {/* ✅ REUSABLE SIDEBAR */}
       <AdminSidebar mobileMenu={mobileMenu} setMobileMenu={setMobileMenu} />
 
-      {/* ✅ MAIN CONTENT - CENTERED + MOBILE RESPONSIVE */}
-      <main className="flex-1 lg:ml-0 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 min-h-screen">
+      {/* ✅ MAIN CONTENT */}
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-8 py-6 lg:py-8 min-h-screen flex flex-col gap-6">
+        
         {/* HEADER */}
-        <div className="text-center mb-8 lg:mb-12">
-          {/* <p className="text-sm text-gray-600 mb-1">Pages / Period Wise</p> */}
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-indigo-900">
-            Student Attendance Schedule
+        <div className="flex flex-col gap-1 border-b border-indigo-100 pb-4">
+          <h1 className="text-2xl sm:text-3xl font-black text-indigo-950 tracking-tight">
+            Schedule Analysis
           </h1>
+          <p className="text-xs text-slate-500 font-semibold tracking-wide uppercase">
+            Period-Wise Biometric Capacity & Timetables
+          </p>
         </div>
 
-        {/* PERIOD CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 mb-8 max-w-4xl mx-auto w-full">
+        {/* PERIOD CARDS WITH DYNAMIC CAPACITY GAUGES */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-5xl w-full">
           {periods.map((period, index) => {
             const count = attendanceData.filter((log) => log.period === period.name).length;
+            const percent = Math.min(100, Math.round((count / period.cap) * 100));
             return (
               <div
                 key={index}
-                className="bg-white/80 backdrop-blur-xl border border-indigo-200/50 shadow-lg rounded-3xl p-5 flex justify-between items-center"
+                className="bg-white/80 backdrop-blur-xl border border-indigo-100/50 shadow-md rounded-2xl p-4 flex flex-col gap-3.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-indigo-300"
               >
-                <div className="flex items-center gap-3">
-                  {period.icon}
-                  <div>
-                    <h2 className="font-bold text-indigo-800">{period.name}</h2>
-                    <p className="text-xs text-gray-600">{period.time}</p>
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-inner">
+                      {period.icon}
+                    </div>
+                    <div>
+                      <h2 className="font-extrabold text-indigo-950 text-sm leading-tight">{period.name}</h2>
+                      <p className="text-[10px] text-slate-450 font-bold">{period.time}</p>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-black text-indigo-900">{count}</h3>
+                </div>
+
+                {/* Progress Gauges */}
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between text-[9px] font-bold text-slate-400">
+                    <span>Capacity Gauge</span>
+                    <span className="text-indigo-600 font-extrabold">{percent}%</span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-indigo-500 to-violet-600 h-1.5 rounded-full transition-all duration-500" 
+                      style={{ width: `${percent}%` }}
+                    />
                   </div>
                 </div>
-                <h2 className="text-3xl font-bold text-indigo-800">{count}</h2>
               </div>
             );
           })}
         </div>
 
-        {/* FILTER */}
-        <div className="max-w-4xl mx-auto w-full mb-6 flex items-center gap-3">
-          <label className="text-sm font-medium text-gray-700">Filter:</label>
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="w-full sm:w-auto px-4 py-3 rounded-xl border border-indigo-200/50 bg-white/60 backdrop-blur-xl focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-          >
-            <option value="">All</option>
-            {periods.map((p) => (
-              <option key={p.name} value={p.name}>
-                {p.name}
-              </option>
-            ))}
-          </select>
+        {/* TOP FILTER BAR */}
+        <div className="max-w-4xl w-full mb-1">
+          <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xl p-4 rounded-2xl border border-indigo-100/50 shadow-sm max-w-sm">
+            <span className="text-slate-400 flex items-center justify-center">
+              <Filter className="w-4 h-4" />
+            </span>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="w-full bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer"
+            >
+              <option value="">Filter: All Classes</option>
+              {periods.map((p) => (
+                <option key={p.name} value={p.name}>
+                  {p.name} Lecture
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        {/* TABLE */}
-        <div className="max-w-4xl mx-auto w-full bg-white/80 backdrop-blur-xl border border-indigo-200/50 rounded-3xl shadow-xl p-6">
-          <h2 className="text-xl font-bold text-indigo-800 mb-6 text-center">
-            Attendance Records
+        {/* RECORDS GRID TABLE */}
+        <div className="max-w-4xl w-full bg-white/85 backdrop-blur-xl border border-indigo-100/50 rounded-3xl shadow-xl p-6 flex flex-col gap-4">
+          <h2 className="text-lg font-extrabold text-indigo-950 tracking-tight">
+            Schedule Records Log
           </h2>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[600px]">
+          <div className="overflow-x-auto rounded-2xl border border-slate-100">
+            <table className="w-full text-left border-collapse text-xs min-w-[600px]">
               <thead>
-                <tr className="bg-indigo-50/50 border-b border-indigo-100">
-                  <th className="p-4 text-left font-semibold text-indigo-700">Name</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Reg No</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Class</th>
-                  <th className="p-4 text-left font-semibold text-indigo-700">Date & Time</th>
+                <tr className="bg-indigo-50/60 border-b border-indigo-100/40">
+                  <th className="p-4 font-extrabold text-indigo-900">Student Name</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Registration ID</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Lecture Period</th>
+                  <th className="p-4 font-extrabold text-indigo-900">Time Registered</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr>
-                    <td colSpan="4" className="text-center p-6 text-gray-500">
-                      Loading...
+                    <td colSpan="4" className="text-center p-8 text-slate-400 font-semibold">
+                      Retrieving database records...
                     </td>
                   </tr>
                 ) : filteredData.length > 0 ? (
                   filteredData.map((log, index) => (
                     <tr
                       key={index}
-                      className="border-t border-indigo-100 hover:bg-indigo-50/50"
+                      className="hover:bg-indigo-50/30 transition-all duration-150"
                     >
-                      <td className="p-4 font-medium">{log.name}</td>
-                      <td className="p-4 font-mono">{log.usn}</td>
-                      <td className="p-4">{log.period}</td>
-                      <td className="p-4 text-gray-700 text-xs">
+                      <td className="p-4 font-bold text-slate-800">{log.name}</td>
+                      <td className="p-4 font-mono font-semibold text-indigo-650">{log.usn}</td>
+                      <td className="p-4">
+                        <span className="bg-indigo-50 text-indigo-750 px-2.5 py-0.5 rounded-md font-bold text-[10px]">
+                          {log.period}
+                        </span>
+                      </td>
+                      <td className="p-4 font-mono text-slate-500">
                         {new Date(log.recognizedAt).toLocaleString()}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="text-center p-6 text-gray-500">
-                      No records found
+                    <td colSpan="4" className="text-center p-8 text-slate-400 font-semibold">
+                      No matching records locked.
                     </td>
                   </tr>
                 )}
@@ -141,18 +171,18 @@ const Period = () => {
         </div>
 
         {/* FOOTER */}
-        <div className="mt-12 pt-8 border-t border-indigo-200/50 text-center">
-          <p className="text-sm text-gray-600 mb-2">© 2026 Smart Attendance System</p>
-          <p className="text-sm">
-            Contact:{" "}
+        <footer className="mt-8 pt-6 border-t border-slate-200/50 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between px-2 gap-2">
+          <p>© 2026 Smart Attendance Tracking System. All rights reserved.</p>
+          <p className="font-semibold">
+            Support: 
             <a
               href="mailto:erandajayawardhane25@gmail.com"
-              className="text-indigo-600 font-semibold hover:underline ml-1"
+              className="text-indigo-600 hover:underline ml-1 font-bold"
             >
               erandajayawardhane25@gmail.com
             </a>
           </p>
-        </div>
+        </footer>
       </main>
     </div>
   );

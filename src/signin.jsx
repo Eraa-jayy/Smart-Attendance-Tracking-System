@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Camera, ShieldCheck, Clock, Users } from "lucide-react";
+import { Camera, ShieldCheck, Clock, Users, Mail, Lock, User, UserPlus, LogIn } from "lucide-react";
 import toast from "react-hot-toast";
 
 const Signin = () => {
@@ -119,147 +119,224 @@ const Signin = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-100">
       {/* NAVBAR - CENTERED */}
-      <div className="flex justify-center px-4 py-4 bg-white/60 backdrop-blur-md border-b border-slate-200">
-        <h1 className="text-2xl font-extrabold text-indigo-800 text-center">
-          Smart Attendance Tracking System
-        </h1>
-      </div>
+      <header className="flex justify-between items-center px-6 sm:px-12 py-4 bg-white/70 backdrop-blur-md border-b border-slate-200 shadow-sm z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white font-black text-lg shadow-md">
+            S
+          </div>
+          <div>
+            <h1 className="text-xl font-extrabold text-indigo-900 tracking-tight">
+              Smart Attendance
+            </h1>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">
+              Portal Authentication
+            </p>
+          </div>
+        </div>
+
+        <Link to="/">
+          <button className="px-5 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-semibold text-sm shadow-sm hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200 cursor-pointer">
+            Back to Scanner
+          </button>
+        </Link>
+      </header>
 
       {/* MAIN CONTENT - CENTERED */}
-      <div className="flex flex-1 items-center justify-center p-4 sm:p-6">
-        <div className="w-full max-w-5xl bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+      <div className="flex flex-1 items-center justify-center p-4 sm:p-8">
+        <div className="w-full max-w-5xl bg-white/80 backdrop-blur-xl border border-indigo-100 rounded-3xl shadow-2xl overflow-hidden glass-panel">
           {/* GRID ROWS ON LARGE, COLS ON SMALL */}
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            {/* LEFT - INFO + BENEFITS */}
-            <div className="p-8 sm:p-10 bg-gradient-to-br from-indigo-800 to-violet-700 text-white">
-              <h1 className="text-xl sm:text-2xl font-extrabold mb-4">
-                Welcome to Smart Attendance Tracking System!
-              </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-12">
+            
+            {/* LEFT - INFO + BENEFITS (5 cols) */}
+            <div className="lg:col-span-5 p-8 sm:p-10 bg-gradient-to-br from-indigo-800 to-violet-750 text-white flex flex-col justify-between gap-6 relative overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-44 h-44 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+              
+              <div>
+                <h1 className="text-2xl font-black mb-3 tracking-tight">
+                  Welcome to S.A.T.S
+                </h1>
+                <p className="text-indigo-100 text-xs leading-relaxed font-medium">
+                  AI-powered biometric schedule verification tracking. Seamless administration starts here.
+                </p>
+              </div>
 
-              <p className="text-indigo-100 text-sm mb-6">
-                AI‑powered attendance system with face recognition and real‑time tracking.
-              </p>
-
-              <div className="grid gap-4">
+              <div className="grid gap-3.5 my-auto">
                 {benefits.map((item, i) => (
                   <div
                     key={i}
-                    className="flex gap-3 bg-white/10 border border-white/20 rounded-2xl p-4"
+                    className="flex gap-3 bg-white/5 border border-white/10 rounded-2xl p-3.5 hover:bg-white/10 transition-colors duration-250"
                   >
-                    <div className="p-2 bg-white/10 rounded-xl">{item.icon}</div>
+                    <div className="p-2 bg-indigo-600/40 rounded-xl flex items-center justify-center h-10 w-10 flex-shrink-0">
+                      {item.icon}
+                    </div>
                     <div>
-                      <p className="font-semibold text-sm">{item.title}</p>
-                      <p className="text-xs text-indigo-100">{item.desc}</p>
+                      <p className="font-bold text-xs">{item.title}</p>
+                      <p className="text-[10px] text-indigo-200/90 font-medium leading-normal mt-0.5">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
+
+              <div className="text-[10px] text-indigo-300 font-semibold uppercase tracking-wider">
+                Authorized access only
+              </div>
             </div>
 
-            {/* RIGHT - FORM */}
-            <div className="p-8 sm:p-10 flex flex-col justify-center">
-              <h2 className="text-2xl font-extrabold text-indigo-800 mb-4 text-center">
-                {authMode === "login"
-                  ? "Administrator LogIn"
-                  : "Administrator SignUp"}
-              </h2>
+            {/* RIGHT - FORM (7 cols) */}
+            <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center gap-6 bg-white/35">
+              <div>
+                <h2 className="text-2xl font-extrabold text-indigo-900 tracking-tight text-center">
+                  {authMode === "login" ? "Administrator Login" : "Create Admin Account"}
+                </h2>
+                <p className="text-xs text-slate-500 text-center mt-1 font-medium">
+                  Please authenticate to access the backend dashboard panels.
+                </p>
+              </div>
 
               {/* LOGIN / SIGNUP TABS */}
-             <div className="flex gap-3 mb-4 mt-2">
-  <button
-    onClick={() => setAuthMode("login")}
-    className={`
-      flex-1 py-3 rounded-xl font-semibold
-      transition-colors duration-150
-      ${authMode === "login"
-        ? "bg-indigo-800 text-white"
-        : "bg-slate-100 text-gray-600 hover:bg-slate-200"
-      }
-    `}
-  >
-    LogIn
-  </button>
-  <button
-    onClick={() => setAuthMode("signup")}
-    className={`
-      flex-1 py-3 rounded-xl font-semibold
-      transition-colors duration-150
-      ${authMode === "signup"
-        ? "bg-indigo-800 text-white"
-        : "bg-slate-100 text-gray-600 hover:bg-slate-200"
-      }
-    `}
-  >
-    SignUp
-  </button>
-</div>
+              <div className="flex bg-slate-100 p-1 rounded-2xl max-w-sm mx-auto w-full">
+                <button
+                  onClick={() => setAuthMode("login")}
+                  className={`
+                    flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5
+                    ${authMode === "login"
+                      ? "bg-white text-indigo-900 shadow-md shadow-slate-200/50"
+                      : "text-slate-500 hover:text-slate-800"
+                    }
+                  `}
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  LogIn
+                </button>
+                <button
+                  onClick={() => setAuthMode("signup")}
+                  className={`
+                    flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5
+                    ${authMode === "signup"
+                      ? "bg-white text-indigo-900 shadow-md shadow-slate-200/50"
+                      : "text-slate-500 hover:text-slate-800"
+                    }
+                  `}
+                >
+                  <UserPlus className="w-3.5 h-3.5" />
+                  SignUp
+                </button>
+              </div>
 
-              {/* LOGIN FORM */}
-              {authMode === "login" ? (
-                <>
-                  <input
-                    id="signin-email"
-                    placeholder="Email / Username"
-                    className="w-full mb-4 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-                  />
-                  <input
-                    id="signin-password"
-                    type="password"
-                    placeholder="Password"
-                    className="w-full mb-6 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-                  />
-                  <button
-                    onClick={handleSignin}
-                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
-                  >
-                    Sign In
-                  </button>
-                </>
-              ) : (
-                <>
-                  <input
-                    id="signup-username"
-                    placeholder="Username"
-                    className="w-full mb-3 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-                  />
-                  <input
-                    id="signup-email"
-                    placeholder="Email"
-                    className="w-full mb-3 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-                  />
-                  <input
-                    id="signup-password"
-                    type="password"
-                    placeholder="Password"
-                    className="w-full mb-3 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-                  />
-                  <input
-                    id="signup-retype"
-                    type="password"
-                    placeholder="Retype Password"
-                    className="w-full mb-6 px-4 py-3 rounded-xl border border-slate-200 bg-white/90 focus:ring-2 focus:ring-indigo-300 focus:border-transparent"
-                  />
-                  <button
-                    onClick={handleSignup}
-                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-800 to-violet-600 text-white font-semibold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-200"
-                  >
-                    Sign Up
-                  </button>
-                </>
-              )}
+              {/* DYNAMIC FORM CONTAINER */}
+              <div className="space-y-4 animate-modal-enter">
+                {authMode === "login" ? (
+                  <>
+                    {/* EMAIL INPUT */}
+                    <div className="relative group">
+                      <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors duration-200">
+                        <Mail className="w-4 h-4" />
+                      </span>
+                      <input
+                        id="signin-email"
+                        type="text"
+                        placeholder="Email or Username"
+                        className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 text-sm font-semibold outline-none placeholder:text-slate-400 placeholder:font-medium"
+                      />
+                    </div>
+
+                    {/* PASSWORD INPUT */}
+                    <div className="relative group">
+                      <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors duration-200">
+                        <Lock className="w-4 h-4" />
+                      </span>
+                      <input
+                        id="signin-password"
+                        type="password"
+                        placeholder="Password"
+                        className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 text-sm font-semibold outline-none placeholder:text-slate-400 placeholder:font-medium"
+                      />
+                    </div>
+
+                    <button
+                      onClick={handleSignin}
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-650 text-white font-bold text-sm shadow-xl shadow-indigo-100 hover:shadow-indigo-200 hover:scale-[1.01] active:scale-[0.99] transition-all duration-250 mt-2 cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      Authenticate Access
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {/* SIGNUP USERNAME */}
+                    <div className="relative group">
+                      <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors duration-200">
+                        <User className="w-4 h-4" />
+                      </span>
+                      <input
+                        id="signup-username"
+                        type="text"
+                        placeholder="Username"
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 text-sm font-semibold outline-none placeholder:text-slate-400 placeholder:font-medium"
+                      />
+                    </div>
+
+                    {/* SIGNUP EMAIL */}
+                    <div className="relative group">
+                      <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors duration-200">
+                        <Mail className="w-4 h-4" />
+                      </span>
+                      <input
+                        id="signup-email"
+                        type="email"
+                        placeholder="Email Address"
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 text-sm font-semibold outline-none placeholder:text-slate-400 placeholder:font-medium"
+                      />
+                    </div>
+
+                    {/* SIGNUP PASSWORD */}
+                    <div className="relative group">
+                      <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors duration-200">
+                        <Lock className="w-4 h-4" />
+                      </span>
+                      <input
+                        id="signup-password"
+                        type="password"
+                        placeholder="Password"
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 text-sm font-semibold outline-none placeholder:text-slate-400 placeholder:font-medium"
+                      />
+                    </div>
+
+                    {/* SIGNUP RETYPE PASSWORD */}
+                    <div className="relative group">
+                      <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 group-focus-within:text-indigo-600 transition-colors duration-200">
+                        <Lock className="w-4 h-4" />
+                      </span>
+                      <input
+                        id="signup-retype"
+                        type="password"
+                        placeholder="Retype Password"
+                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white/95 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 text-sm font-semibold outline-none placeholder:text-slate-400 placeholder:font-medium"
+                      />
+                    </div>
+
+                    <button
+                      onClick={handleSignup}
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-650 text-white font-bold text-sm shadow-xl shadow-indigo-100 hover:shadow-indigo-200 hover:scale-[1.01] active:scale-[0.99] transition-all duration-250 mt-2 cursor-pointer"
+                    >
+                      Register New Administrator
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
+
           </div>
         </div>
       </div>
 
       {/* FOOTER - CENTERED */}
-      <footer className="w-full py-4 bg-white/60 backdrop-blur-md border-t border-slate-200 text-center text-sm text-gray-600 mt-auto">
+      <footer className="w-full py-5 bg-white/60 backdrop-blur-md border-t border-slate-200 text-center text-xs text-slate-500 mt-auto">
         <p>© 2026 Smart Attendance Tracking System. All rights reserved.</p>
-        <p className="mt-1">
-          Contact:{" "}
+        <p className="mt-1 font-medium">
+          Contact Support:{" "}
           <a
             href="mailto:erandajayawardhane25@gmail.com"
-            className="text-indigo-600 font-medium hover:underline"
+            className="text-indigo-600 font-bold hover:underline"
           >
             erandajayawardhane25@gmail.com
           </a>

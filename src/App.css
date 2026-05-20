@@ -1,13 +1,156 @@
 @import "tailwindcss";
+/* Segoe UI system font – no external import needed */
 
 .bg-split {
-    background: linear-gradient(to bottom, #5A62F6 50%, white 50%);
+  background: linear-gradient(to bottom, #5A62F6 50%, white 50%);
+}
+
+/* Set the base font family globally */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   HIGH-TECH BIO-SCANNER ANIMATIONS & GLASSMORPHISM
+   ========================================================================== */
+
+/* Neon vertical scanner sweep */
+@keyframes scannerLine {
+  0% {
+    top: 5%;
+    opacity: 0.8;
   }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-  
-  /* Set the base font family globally */
-  body {
-    font-family: 'Inter', 'Figtree', 'Montserrat', sans-serif;
+  50% {
+    top: 90%;
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.8));
   }
-    
+  100% {
+    top: 5%;
+    opacity: 0.8;
+  }
+}
+
+.scanner-laser {
+  animation: scannerLine 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Biometric radar pulsing ring */
+@keyframes radarRing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 0 15px rgba(99, 102, 241, 0.15);
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0.2;
+  }
+}
+
+.biometric-radar {
+  animation: radarRing 2.5s ease-in-out infinite;
+}
+
+/* Slow rotate for high-tech camera overlays */
+@keyframes slowRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.biometric-rotate {
+  animation: slowRotate 20s linear infinite;
+}
+
+/* Pulse animation for scanning indicators */
+@keyframes highTechPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.tech-pulse {
+  animation: highTechPulse 2s ease-in-out infinite;
+}
+
+/* Premium modal entrance animation */
+@keyframes modalScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modal-enter {
+  animation: modalScaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom glowing effects */
+.glow-indigo-soft {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+.glow-emerald-soft {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+}
+.glow-rose-soft {
+  box-shadow: 0 0 25px rgba(244, 63, 94, 0.25);
+}
+
+/* Metallic Tech Corner Brackets */
+.tech-corner-tl {
+  border-top: 3px solid rgba(99, 102, 241, 0.85);
+  border-left: 3px solid rgba(99, 102, 241, 0.85);
+}
+.tech-corner-tr {
+  border-top: 3px solid rgba(99, 102, 241, 0.85);
+  border-right: 3px solid rgba(99, 102, 241, 0.85);
+}
+.tech-corner-bl {
+  border-bottom: 3px solid rgba(99, 102, 241, 0.85);
+  border-left: 3px solid rgba(99, 102, 241, 0.85);
+}
+.tech-corner-br {
+  border-bottom: 3px solid rgba(99, 102, 241, 0.85);
+  border-right: 3px solid rgba(99, 102, 241, 0.85);
+}
+
+/* Glassmorphism card premium style */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+}
+
+/* Shimmer animation for loading or processing states */
+@keyframes shimmerEffect {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-bg {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 25%, rgba(99, 102, 241, 0.1) 50%, rgba(255, 255, 255, 0) 75%);
+  background-size: 200% 100%;
+  animation: shimmerEffect 1.8s infinite linear;
+}
